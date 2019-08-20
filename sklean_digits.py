@@ -8,7 +8,6 @@ X = digits.data    # 手書き数字データ
 y = digits.target   # ターゲット
 n_train = len(X)*2//3 # データの2/3の個数
 
-#挿入111
 # 訓練データ
 X_train, y_train = X[:n_train], y[:n_train]   # 前半 2/3
 # テストデータ
