@@ -38,4 +38,4 @@ for i in range(5):
   sheet3["F"+str(ren)].value = ankenmei.value
   sheet3["G"+str(ren)].value = tantou.value
 
-new_book.save(rf"C:\Users\m-nakagawa\Desktop\ankensel.xlsx")
+new_book.save(rf"C:\Users\manap\OneDrive\デスクトップ\ankensel.xlsx")

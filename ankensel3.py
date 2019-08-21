@@ -32,4 +32,4 @@ sheet3["E2"].value = rieki2.value
 sheet3["F2"].value = ankenmei.value
 sheet3["G2"].value = tantou.value
 
-new_book.save(rf"C:\Users\m-nakagawa\Desktop\ankensel.xlsx")
+new_book.save(rf"C:\Users\manap\OneDrive\デスクトップ\ankensel.xlsx")
