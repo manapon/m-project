@@ -4,7 +4,7 @@ import openpyxl as px
 import numpy as np
 import pandas as pd
 
-files=glob.glob(rf'C:\Users\m-nakagawa\Desktop\ankensheet\*.xlsm')
+files=glob.glob(rf'C:\Users\manap\OneDrive\デスクトップ\ankensheet\*.xlsm')
 
 new_book = px.Workbook()
 sheet3 = new_book.active
@@ -35,8 +35,7 @@ for i in range(5):
   sheet3["C"+str(ren)].value = rieki1.value
   sheet3["D"+str(ren)].value = kin2.value
   sheet3["E"+str(ren)].value = rieki2.value
-  sheet3["F"+str(ren)].value = ankenmei.value 
-  sheet3["G"+str(ren)].value = tantou.value 
+  sheet3["F"+str(ren)].value = ankenmei.value
+  sheet3["G"+str(ren)].value = tantou.value
 
 new_book.save(rf"C:\Users\m-nakagawa\Desktop\ankensel.xlsx")
-
