@@ -1,0 +1,1 @@
+future = m.make_future_dataframe(periods = 24, freq='MS')

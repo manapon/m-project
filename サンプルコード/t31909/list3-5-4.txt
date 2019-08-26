@@ -1,0 +1,9 @@
+m4 = Prophet(growth = "linear",
+           yearly_seasonality = 10,
+           weekly_seasonality = False,
+           daily_seasonality = False,
+           seasonality_mode='multiplicative',
+           changepoint_prior_scale=0.1).fit(train)
+forecast4 = m4.predict(df = future)
+fig4 = m4.plot(forecast4)
+a = add_changepoints_to_plot(fig4.gca(), m4, forecast)

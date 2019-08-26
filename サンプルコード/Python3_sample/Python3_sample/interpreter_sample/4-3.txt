@@ -1,0 +1,1 @@
+P85●オブジェクトの型を調べるs = "Hello Python"type(s)●str型なのでupper()が使えるs = "Hello Python"s.upper()●文字列に対してメソッドを直接実行する"Hello Python".upper()

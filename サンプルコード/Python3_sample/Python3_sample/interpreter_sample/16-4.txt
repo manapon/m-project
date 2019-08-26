@@ -1,0 +1,42 @@
+P404
+
+●ボストンの住宅価格のデータセットを読み込む
+from sklearn import datasets
+boston = datasets.load_boston()
+
+●データセットに納められているものを調べる
+dir(boston)
+
+●bostonデータセットの説明文を読む
+print(boston.DESCR)
+
+P406
+
+●データセットをDataFrame型に変換し出力する
+from pandas import DataFrame
+
+boston_df = DataFrame(boston.data)    # DataFrame型にする
+boston_df.columns = boston.feature_names    # 列名を設定する
+boston_df["Price"] = boston.target    # 住宅価格を追加する
+print(boston_df[:5])    # 最初の5行だけ
+
+P407
+
+●回帰モデルを作って部屋数と価格の訓練データで訓練する
+rooms_train = DataFrame(boston_df["RM"])    # 部屋数のデータを抜き出す
+y_train = boston.target    # ターゲット（住宅価格）
+model = linear_model.LinearRegression()    # 回帰モデルを作る
+model.fit(rooms_train, y_train)    # 訓練する
+
+●予想価格をモデルを使って計算する
+# 部屋数のテストデータを作る
+rooms_test = DataFrame(np.arange(rooms_train.values.min(), rooms_train.values.max(), 0.1))
+prices_test = model.predict(rooms_test)    # モデルを使って住宅価格を予想する
+
+●実際のデータと回帰直線をグラフ表示する
+plt.scatter(rooms_train, y_train, c= "b", alpha = 0.5)    # 訓練データ
+plt.plot(rooms_test, prices_test, c = "r", marker ="x")    # 回帰直線
+plt.title("Boston House Prices dataset")
+plt.xlabel("rooms")    # x軸のラベル
+plt.ylabel("price $1000's")    # y軸のラベル
+pl

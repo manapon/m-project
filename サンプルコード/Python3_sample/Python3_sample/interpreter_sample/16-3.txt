@@ -1,0 +1,94 @@
+P397
+
+●アヤメのデータセットを読み込む
+from sklearn import datasets
+iris = datasets.load_iris()
+
+●irisデータセットに納められているものを調べる
+dir(iris)
+
+●irisデータセットの説明文を読む
+print(iris.DESCR)
+
+P398
+
+●データの構造を調べる
+X = iris.data      # 計測データ
+y = iris.target    # ターゲットデータ
+X.shape
+
+y.shape
+
+●訓練とテストに使う計測データ
+X
+
+P399
+
+●学習データの属性
+iris.feature_names
+
+●教師データ（ターゲット）
+print(y)
+
+●がく片の長さと幅の値で3種類のアヤメをプロットする
+import matplotlib.pyplot as plt
+# setosa:0～49、versicolor:50～99、virginica:100～149
+plt.scatter(X[:50, 0], X[:50, 1], color='r', marker='o', label='setosa')
+plt.scatter(X[50:100, 0], X[50:100, 1], color='g', marker='+', label='versicolor')
+plt.scatter(X[100:, 0], X[100:, 1],color='b', marker='x', label='virginica')
+plt.title("Iris Plants Database")
+plt.xlabel('sepal length(cm)')
+plt.ylabel('sepal width(cm)')
+plt.legend()
+plt.show()
+
+P400
+
+●3種類のアヤメをプロットするコード
+for i, cl, mk, lb in zip([0,1,2], 'rgb', 'o+x', iris.target_names):
+    plt.scatter(X[y==i][:,0], X[y==i][:,1], color=cl, marker=mk, label=lb)
+
+●モデルclfを作って訓練データで学習する
+from sklearn import datasets
+from sklearn import svm
+iris = datasets.load_iris()   # アヤメのデータセットを読み込む
+X = iris.data    # データ
+y = iris.target  # ターゲット
+n_train = len(X)//2    # データの半分の個数
+X_train, X_test = X[:n_train], X[n_train:]　# 訓練データ
+y_train, y_test = y[:n_train], y[n_train:]  # 教師データ
+clf = svm.SVC()    # モデルを作る
+clf.fit(X_train, y_train)    # 学習する
+
+●テストデータで評価する
+print(clf.score(X_test, y_test))
+
+●データの前半分を訓練データにする
+n_train = len(X)//2    # データの半分の個数
+X_train, X_test = X[:n_train], X[n_train:]　# 訓練データ
+
+P402
+
+●分割比率を設定したShuffleSplitクラスのインスタンスを作る
+from sklearn.model_selection import ShuffleSplit
+ss = ShuffleSplit(train_size=0.6, test_size=0.4, random_state=0)
+
+●訓練データとテストデータのインデックスを作り分割する
+train_index, test_index = next(ss.split(X))   # 分割するインデックス番号
+X_train, y_train = X[train_index], y[train_index]  # 訓練データ
+X_test, y_test = X[test_index], y[test_index]  # テストデータ
+
+●変数の学習器を作って訓練する
+clf = svm.SVC()    # 学習器を作る
+clf.fit(X_train, y_train)    # 訓練する
+print(clf.score(X_test, y_test))    # 正答率を調べる
+0.95
+
+P403
+
+●学習器をLogisticRegressionに取り替えて試してみる
+from sklearn import linear_model
+clf = linear_model.LogisticRegression()
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test))
+

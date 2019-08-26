@@ -1,0 +1,179 @@
+# ------------------------
+# UI関数
+# ------------------------
+# 盤面の描画
+def draw_board():
+  global game
+  global canvas_board
+  
+  canvas_board.delete('all')  # キャンバスをクリア
+  # 背景
+  canvas_board.create_rectangle(0, 0, \
+    BOARD_PX_SIZE, BOARD_PX_SIZE, fill = '#00a000')
+  for y in range(8):
+    for x in range(8):
+      disc = game.board.board[y][x]
+      if disc != SPACE:
+        if disc == BLACK:
+          color = "black"
+        else:
+          color = "white"
+        # 石の描画
+        canvas_board.create_oval( \
+          x*CELL_PX_SIZE+4, y*CELL_PX_SIZE+4, \
+          (x+1)*CELL_PX_SIZE-4, \
+          (y+1)*CELL_PX_SIZE-4, fill=color)  
+    
+  # 枠を描画
+  for x in range(8):
+    canvas_board.create_line(x * CELL_PX_SIZE, \
+      0, x * CELL_PX_SIZE, BOARD_PX_SIZE, \
+      fill="black", width=1)
+  for y in range(8):
+    canvas_board.create_line(0, y * CELL_PX_SIZE, \
+      BOARD_PX_SIZE, y * CELL_PX_SIZE, \
+      fill="black", width=1)
+    
+  canvas_board.update()
+
+# メッセージ表示
+def disp_mess():
+  global game
+  global mess_var
+  
+  mess = ""
+  if game.game_mode == 0:
+    mess = u"対局を開始してください"
+    
+  elif game.game_mode == 1:
+    mess = u"対局中 "
+    mess += str(game.board.move_num) + u"手目 "
+    if game.board.turn == BLACK:
+      mess += u"黒番"
+    else:
+      mess += u"白番"
+    # 黒白の石数をタプルで取得
+    (black_discs, white_discs) = \
+      game.board.get_discs()
+    mess += " 黒:" + str(black_discs) + " 白:" \
+      + str(white_discs)
+    
+  elif game.game_mode == 2:
+    # 黒白の石数をタプルで取得
+    (black_discs, white_discs) = \
+      game.board.get_discs()  
+    mess = u"対局終了 " + \
+      str(game.board.move_num-1) + u"手" + " 黒:" \
+      +str(black_discs)+" 白:"+str(white_discs)
+    if black_discs == white_discs:
+      mess += u" 引き分け"
+    elif black_discs > white_discs:
+      mess += u" 黒の勝ち "
+    else:
+      mess += u" 白の勝ち "
+  mess_var.set(mess)  # メッセージラベルにセット
+
+# 「対局開始」ボタンが押された時
+def play_start():
+  global game
+  global black_var, white_var
+
+  # ● 0:プレイヤー 1:コンピュータ
+  black_player = black_var.get()
+  # ○ 0:プレイヤー 1:コンピュータ
+  white_player = white_var.get()  
+
+  # 対局開始
+  game.start(black_player, white_player)  
+  disp_mess()     # メッセージ表示
+  draw_board()    # 盤面を描画
+  
+  # 次の手番がコンピュータの場合
+  # （プレイヤーの手番なら何もしない）
+  game.proc_com_turn()
+
+# 盤面がクリックされた時
+def click_board(event):
+  global game
+  if game.game_mode != 1:
+    messagebox.showinfo(u"", \
+      u"対局開始してください")
+    return
+  y = math.floor(event.y / CELL_PX_SIZE)
+  x = math.floor(event.x / CELL_PX_SIZE)
+  position = Position(y, x)
+  if game.board.is_movable(position) == False:
+    messagebox.showinfo(u"", u"そこには打てません")
+    return
+  
+  game.game_move(position)  # 局面を進める
+  if game.game_mode == 2:
+    return  # 対局終了していたら抜ける
+  
+  # 次の手番がコンピュータの場合
+  # （プレイヤーの手番なら何もしない）
+  game.proc_com_turn()
+
+# ------------------------
+# メイン処理
+# ------------------------
+
+# ウインドウ初期化
+root = tkinter.Tk()
+root.title(u"リバーシ")
+
+# ウインドウの幅
+window_width  = BOARD_PX_SIZE + 32
+# ウインドウの高さ 
+window_height = BOARD_PX_SIZE + 88
+# ウインドウサイズを指定
+root.geometry(str(window_width) + "x" + \
+  str(window_height))   
+
+# 盤面キャンバスを作成
+# キャンバスを作成
+canvas_board = tkinter.Canvas(root, \
+  width = BOARD_PX_SIZE, height = BOARD_PX_SIZE)
+# キャンバスがクリックされた時に呼び出す関数を設定
+canvas_board.bind("<Button-1>", click_board)
+# キャンバスの位置を指定  
+canvas_board.place(x = 16, y = 72)        
+
+# 対局条件
+black_label = tkinter.Label(text=u"先手●")
+black_label.place(x = 16, y = 4)
+black_var = tkinter.IntVar()
+black_rdo0 = tkinter.Radiobutton(root, value = 0, \
+  variable = black_var, text = u"プレイヤー")
+black_rdo0.place(x = 70, y = 4)
+black_rdo1 = tkinter.Radiobutton(root, value = 1, \
+  variable = black_var, text = u"コンピュータ")
+black_rdo1.place(x = 160, y = 4)
+
+white_label = tkinter.Label(text=u"後手○")
+white_label.place(x = 16, y = 24)
+white_var = tkinter.IntVar()
+white_rdo0 = tkinter.Radiobutton(root, value = 0, \
+  variable = white_var, text = u"プレイヤー")
+white_rdo0.place(x = 70, y = 24)
+white_rdo1 = tkinter.Radiobutton(root, value = 1, \
+  variable = white_var, text = u"コンピュータ")
+white_rdo1.place(x = 160, y = 24)
+
+# 「対局開始」ボタンを設置
+button_start = tkinter.Button(root, \
+  text = u"対局開始", width=15, command=play_start)
+button_start.place(x = 300, y = 12)
+
+# メッセージ欄
+mess_var = tkinter.StringVar()
+mess_label = tkinter.Label(root, \
+  textvariable = mess_var)
+mess_label.place(x = 16, y = 48)
+
+game = Game()   # ゲームインスタンス作成
+draw_board()    # 盤面を描画
+disp_mess()     # メッセージ表示
+
+# GUIの待ち受けループ
+root.mainloop()

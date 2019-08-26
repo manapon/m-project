@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Receipt Reader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://code.jquery.com/jquery-3.1.1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <script>
+      $(document).ready(() => {
+        $("#uploadFile").change((event) => {
+          $("#information").html("... sending data ...");
+          const file = event.currentTarget.files[0];
+          const image = new Image();
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            image.onload = () => {
+              let width = image.width;
+              let height = image.height;
+              if (width > 500) {
+                width = 500;
+                height = Math.floor( image.height / image.width * 500);
+              }
+              $("#canvas").attr("width", width);
+              $("#canvas").attr("height", height);
+              const canvas = $("#canvas")[0];
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height);
+              const dataUrl = canvas.toDataURL('image/png');
+              const base64 = dataUrl.replace(/^.*,/,'');
+              const data = {
+                "requests": [
+                  {
+                    "image": {
+                      "content": base64
+                    },
+                    "features": [
+                      {
+                        "type": "DOCUMENT_TEXT_DETECTION"
+                      }
+                    ],
+                    "imageContext": {
+                      "languageHints": [ "ja" ]
+                    }
+                  }
+                ]
+              };
+
+              function getLocation (annotation) {
+                const v1 = annotation.boundingPoly.vertices[0];
+                const v2 = annotation.boundingPoly.vertices[1];
+                const v3 = annotation.boundingPoly.vertices[3];
+                return {
+                  x: v1.x,
+                  y: v1.y,
+                  w: v2.x - v1.x,
+                  h: v3.y - v1.y
+                };
+              }
+
+              function getAmount (priceText) {
+                return priceText.replace(/[^0-9]/g, '');
+              }
+
+              $.ajax( {
+                url: 'http://localhost:8000/gvision',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (json_data) {
+                  try {
+                    const annotations = json_data.responses[0].textAnnotations;
+                    const totalLabelAnnotation = annotations.find((entry) => {
+                      return entry.description === "合計" || entry.description === "合計金額"
+                    });
+                    if (totalLabelAnnotation == null) {
+                      $("#information").html("合計金額が見つかりませんでした。");
+                      return;
+                    }
+                    const totalLabelLocation = getLocation(totalLabelAnnotation);
+                    const candidates = annotations.map((annotation) => {
+                      const l = getLocation(annotation);
+                      return { annotation: annotation, distance: Math.abs(totalLabelLocation.y - l.y) };
+                    }).sort((a,b) => {
+                      return a.distance == b.distance ? 0 : a.distance < b.distance ? -1 : 1;
+                    }).map((tuple) => tuple.annotation);
+                    const totalValueAnnotation = candidates.find((candidate) => {
+                      const l = getLocation(candidate);
+                      return l.x > totalLabelLocation.x;
+                    });
+                    const value = getAmount(totalValueAnnotation.description);
+                    $("#information").html("合計金額：" + value + "円");
+
+                    const l = getLocation(totalValueAnnotation);
+
+                    const canvas = $("#canvas")[0];
+                    const adjust = Math.floor(canvas.width / 100);
+                    const ctx = canvas.getContext('2d');
+                    ctx.beginPath();
+                    ctx.strokeStyle = 'rgb(255, 0, 0)';
+                    ctx.lineWidth = Math.floor(canvas.width / 200);
+                    ctx.strokeRect(l.x - adjust, l.y - adjust, l.w + adjust*2, l.h + adjust*2);
+
+                  } catch (err) {
+                    $("#information").html("パースエラー<br>レシートをうまく解析出来ませんでした");
+                    console.error(err);
+                  }
+
+                },
+                error: function (err) {
+                  $("#information").html("サーバーエラー<br>別の画像を試してみてください。");
+                  console.error(err);
+                }
+              });
+
+            };
+            image.src = evt.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <h2>Receipt Reader</h2>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-lg-6">
+          <canvas id="canvas" style="width:100%"></canvas>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+          <div id="information" style="font-size:x-large"></div>
+        </div>
+      </div>
+      <div class="row">
+        <input id="uploadFile" name="image" type="file" />
+      </div>
+      <div class="row" style="height:20px;"></div>
+    </div>
+  </body>
+  
+</html>

@@ -1,0 +1,4 @@
+scale = 1
+x = np.arange(-8., 8., .01)
+pdf = np.exp(-abs(x)/scale)/(2.*scale)
+plt.plot(x, pdf);

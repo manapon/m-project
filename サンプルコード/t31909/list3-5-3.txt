@@ -1,0 +1,9 @@
+x = np.arange(-0.5, 0.5, .01)
+scale1 = 0.05
+scale2 = 0.1
+
+pdf_05 = np.exp(-abs(x)/scale1)/(2.*scale1)
+pdf_1 = np.exp(-abs(x)/scale2)/(2.*scale2)
+plt.plot(x, pdf_05, label = "scale: 0.05")
+plt.plot(x, pdf_1, label = "scale: 0.1")
+plt.legend();

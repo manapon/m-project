@@ -1,0 +1,5 @@
+observed = np.array(df.tail(24)["#Passengers"])
+pred = np.array(forecast.tail(24)["yhat"])
+resid = observed - pred
+
+print(resid)
