@@ -1,0 +1,17 @@
+// 2機同時に離陸
+swarm.scan(number: 2)
+swarm.tellos.takeoff
+swarm.sync(seconds: 10)
+
+// 互いの位置を入れ替える
+swarm.tellos[0].flyUp(cm: 25)
+swarm.tellos[1].flyDown(cm: 25)
+swarm.sync(seconds: 10)
+swarm.tellos.flyForward(cm: 100)
+swarm.sync(seconds: 10)
+swarm.tellos[0].flyDown(cm: 25)
+swarm.tellos[1].flyUp(cm: 25)
+swarm.sync(seconds: 10)
+
+// 着陸
+swarm.tellos.land()

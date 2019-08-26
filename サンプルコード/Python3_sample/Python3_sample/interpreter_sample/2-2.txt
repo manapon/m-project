@@ -1,0 +1,1 @@
+P31●乗算でkosuを求めるkosu = 12 * 5kosu●変数を使って合計を求めるred_ball = 5white_ball = 7all = red_ball + white_ballall●変数を使って割り算で求めるred_ball/allP32●変数の値を更新するred_ball = 3all●更新し再度実行するall = red_ball + white_ballallP33●エラーメッセージの例redball

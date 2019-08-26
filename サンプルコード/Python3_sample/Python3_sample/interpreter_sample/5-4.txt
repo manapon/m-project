@@ -1,0 +1,1 @@
+P132●初期化されていない変数bを使ったエラー（NameError）a = 10a/b●ゼロで値を割った（ZeroDivisionError）b = 0a/b●"100個"を整数値に変換できなかった（ValueError）num = int("100個")●空のリストから値を取り出そうとした（IndexError）nums = []nums.pop()●開こうとしたファイルが見つからなかった（FileNotFoundError）filein = open("myfile", "rt")

@@ -1,0 +1,2 @@
+# データの整形
+train = train.reset_index().rename(columns={'Month': 'ds', '#Passengers':'y'})

@@ -1,0 +1,5 @@
+import io
+df = pd.read_csv(io.BytesIO(uploaded['AirPassengers.csv']), # ここのファイル名は必ずアップロードしたものと同様にしてください
+                         parse_dates = ["Month"],
+                         index_col = ["Month"],
+                         dtype = {'#Passengers':'float'})

@@ -1,0 +1,4 @@
+import statsmodels.api as sm
+sm.graphics.tsa.plot_acf(df["#Passengers"], lags = 30, alpha = None)
+plt.xlabel("k")
+plt.ylabel("ACF");

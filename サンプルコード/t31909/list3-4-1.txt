@@ -1,0 +1,8 @@
+m2 = Prophet(growth = "linear",
+            yearly_seasonality = 5, # ‚æ‚è’Pƒ‚ÈüŠú‚ğ•\‚·‚æ‚¤‚ÉOŠpŠÖ”‚Ì”‚ğŒ¸‚ç‚µ‚½
+            weekly_seasonality = False,
+            daily_seasonality = False,
+            seasonality_mode='multiplicative').fit(train)
+forecast2 = m2.predict(df = future)
+fig = m2.plot(forecast2)
+fig = m2.plot_components(forecast2)

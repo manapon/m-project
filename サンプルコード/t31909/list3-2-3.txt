@@ -1,0 +1,5 @@
+m = Prophet(growth = "linear", # トレンドでつなぎ合わせる関数。ロジスティック曲線にする場合は"logistic"
+            yearly_seasonality = 10,
+            weekly_seasonality = False,
+            daily_seasonality = False,
+            seasonality_mode='multiplicative').fit(train)

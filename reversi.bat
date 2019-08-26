@@ -1,0 +1,1 @@
+python E:\pgm\python\reversi.py

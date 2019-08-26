@@ -1,0 +1,2 @@
+# モジュールのインポート
+from fbprophet import Prophet

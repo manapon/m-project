@@ -1,0 +1,1 @@
+P232●hello()関数def hello():P233●定義したhello()を呼び出すmsg = hello()msg

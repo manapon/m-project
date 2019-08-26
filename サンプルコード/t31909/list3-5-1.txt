@@ -1,0 +1,3 @@
+from fbprophet.plot import add_changepoints_to_plot
+fig = m.plot(forecast)
+a = add_changepoints_to_plot(fig.gca(), m, forecast)

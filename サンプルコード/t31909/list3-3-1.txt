@@ -1,0 +1,12 @@
+plt.scatter(df.index, df["#Passengers"], color = "black", s = 10) # 実測値のプロット（散布図）
+plt.plot(forecast["ds"], forecast["yhat"]) # 予測値のプロット（折れ線）
+
+# 区間予測の描画
+plt.fill_between(df.index,
+                 forecast["yhat_upper"],
+                 forecast["yhat_lower"],
+                 color='blue', alpha=.1, label="confidence interval")
+
+plt.xlabel('Date') # x軸の名前
+plt.ylabel('#Passengers') # y軸の名前
+plt.legend();
