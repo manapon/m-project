@@ -28,7 +28,7 @@ driver.get(url)
 b = driver.find_element_by_id("wrapper")
 hei01 = b.text
 hei11 = hei01.split("\n")
-heikin = hei11[49].replace(",","") 
+heikin = hei11[48].replace(",","") 
 driver.close()
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')

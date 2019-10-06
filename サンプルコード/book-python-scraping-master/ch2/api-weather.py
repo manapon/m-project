@@ -2,7 +2,7 @@ import requests
 import json, pprint
 
 # APIキーの指定 - 以下を書き換えてください★ --- (※1)
-apikey = "474d59dd890c4108f62f192e0c6fce01"
+apikey = "6010e1b4cfa91824a28a7e5e8abd24ff"
 
 # 天気を調べたい都市の一覧 --- (※2)
 cities = ["Tokyo,JP", "London,UK", "New York,US"]
