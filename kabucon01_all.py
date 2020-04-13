@@ -23,8 +23,8 @@ conn = psycopg2.connect(host="localhost", database="manaponDB", user="postgres",
 cursor = conn.cursor()
 print ("日付：",hiduke,"Connected!","総件数：",endpointer)
 
-#sql = 'delete from "kabumst" WHERE "scode0" > 0000'
-#cursor.execute(sql);
+sql = 'delete from "kabumst" WHERE "scode0" > 0000'
+cursor.execute(sql);
 
 for i in range(stpointer,endpointer):
   scode = mstd[i,0]
@@ -33,12 +33,8 @@ for i in range(stpointer,endpointer):
   results = cursor.fetchall()
   
   tblsu = len(results)
-#  outsu = tblsu - 7
-  if tblsu > 7 :
-    outsu = 1
-  else:
-    outsu = 0
-  
+  outsu = tblsu - 7
+
   for i2 in range(0,outsu):
     data1 = results[i2]
     scode0    = data1[0]

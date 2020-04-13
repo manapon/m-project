@@ -10,8 +10,6 @@ import glob
 import openpyxl as px
 import pandas as pd
 
-stpointer = int(input("開始ポインタ:"))
-
 driver = webdriver.Chrome()
 url = "https://weather.yahoo.co.jp/weather/jp/13/4410.html"
 driver.get(url)
@@ -36,13 +34,23 @@ mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.cs
 mstd = mst.values
 endpointer = len(mstd)
 
-hiduke = datetime.date.today()
+#hiduke = str(datetime.date.today())
+hiduke = '20191106'
 
 conn = psycopg2.connect(host="localhost", database="manaponDB", user="postgres",password="manapon1219")
 cursor = conn.cursor()
 print ("日付：",hiduke,"Connected!","総件数：",endpointer)
 
-for i2 in range(stpointer,endpointer):
+sql = 'SELECT count(*) from kabutrn WHERE "hiduke0" = %s '
+cursor.execute(sql,(hiduke,));
+rerunpointer2 = cursor.fetchall()
+rerunpointer  = int(rerunpointer2[0][0])
+
+if rerunpointer >= endpointer :
+  print ("リランの必要なしです。開始ポインター：",rerunpointer)
+  sys.exit()
+
+for i2 in range(rerunpointer,endpointer):
   scode1 = str(mstd[i2,0])
   scode  = mstd[i2,0]
   sname = mstd[i2,1]
@@ -172,6 +180,7 @@ for i2 in range(stpointer,endpointer):
     conn.commit()
   except:
     print('※※※　ＤＢ更新エラー発生スキップします　※※※')
+    continue
 
 conn.commit()
 sql = 'SELECT count(*) from kabutrn'

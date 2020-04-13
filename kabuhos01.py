@@ -182,6 +182,24 @@ for i in range(stpointer,endpointer):
     elif tenki0  == '曇時々雨' :
       tenki0 = '11'
       cnt0 = cnt0 + 1
+    elif tenki0  == '雨時々曇' :
+      tenki0 = '12'
+      cnt0 = cnt0 + 1
+    elif tenki0  == '曇のち雨' :
+      tenki0 = '13'
+      cnt0 = cnt0 + 1
+    elif tenki0  == '雨のち曇' :
+      tenki0 = '14'
+      cnt0 = cnt0 + 1
+    elif tenki0  == '曇一時雨' :
+      tenki0 = '15'
+      cnt0 = cnt0 + 1
+    elif tenki0  == '大雨' :
+      tenki0 = '19'
+      cnt0 = cnt0 + 1
+    elif tenki0  == '暴風雨' :
+      tenki0 = '20'
+      cnt0 = cnt0 + 1
     if filler01 is None :
       filler01  = 0
       cnt0 = cnt0 + 1

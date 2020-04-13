@@ -22,16 +22,11 @@ ten111 = ten11[1].split(" ")
 tenki = ten111[0]
 driver.close()
 
-driver = webdriver.Chrome()
-url = "https://stocks.finance.yahoo.co.jp/"
-driver.get(url)
-b = driver.find_element_by_id("wrapper")
-hei01 = b.text
-hei11 = hei01.split("\n")
-heikin = hei11[48].replace(",","") 
-driver.close()
+
+heikin = 0
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
+#mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=';')
 mstd = mst.values
 endpointer = len(mstd)
 
@@ -138,7 +133,8 @@ for i2 in range(stpointer,endpointer):
   if kabu002[0] == '---':
     pbr   = 0
   else:
-    pbr   = kabu002[1].replace(" ","")    # PBR
+    pbr1  = kabu002[1].replace(" ","")    # PBR
+    pbr   = pbr1.replace(",","")          # PBR
     if pbr == '---' :
       pbr   = 0
   

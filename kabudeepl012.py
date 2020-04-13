@@ -29,7 +29,7 @@ wlank   = '0'
 conn = psycopg2.connect(host="localhost", database="manaponDB", user="postgres",password="manapon1219")
 cursor = conn.cursor()
 
-sql = 'select * from "kabumst" WHERE "lank0" > %s and "hiduke0" >= %s and "hiduke0" <= %s ORDER BY "hiduke0" ASC'
+sql = 'select * from "kabumst2" WHERE "lank0" > %s and "hiduke0" >= %s and "hiduke0" <= %s ORDER BY "hiduke0" ASC'
 cursor.execute(sql,(wlank,stdate,enddate,));
 results = cursor.fetchall()
 
@@ -73,7 +73,7 @@ alg0 = "RandomForestClassifier"
 ac_score = metrics.accuracy_score(test_label, pre)
 print("正解率=", ac_score)
 
-sql = 'select * from "kabumst" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
+sql = 'select * from "kabumst2" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
 cursor.execute(sql,(yosdate,));
 results2 = cursor.fetchall()
 
@@ -123,7 +123,7 @@ for i3 in range(total_len2):
      heikin0   = data1[19]
      filler01  = data1[20]
      filler02  = alg0
-     ins = 'INSERT INTO kabuyosoku VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+     ins = 'INSERT INTO kabuyosoku2 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
      try:
        cursor.execute(ins,(scode0,hiduke0,sname0,lank0,zenne0,hajime0,takane0,yasune0,dekidaka0,baibai0,jikaso0,hakokab0,hairima0,hitohai0,per0,pbr0,eps0,bps0,tenki0,heikin0,filler01,filler02));
        conn.commit()
@@ -167,7 +167,7 @@ alg0 = "KNeighborsClassifier"
 ac_score = metrics.accuracy_score(test_label, pre)
 print("正解率=", ac_score)
 
-sql = 'select * from "kabumst" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
+sql = 'select * from "kabumst2" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
 cursor.execute(sql,(yosdate,));
 results2 = cursor.fetchall()
 
@@ -217,7 +217,7 @@ for i3 in range(total_len2):
      heikin0   = data1[19]
      filler01  = data1[20]
      filler02  = alg0
-     ins = 'INSERT INTO kabuyosoku VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+     ins = 'INSERT INTO kabuyosoku2 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
      try:
        cursor.execute(ins,(scode0,hiduke0,sname0,lank0,zenne0,hajime0,takane0,yasune0,dekidaka0,baibai0,jikaso0,hakokab0,hairima0,hitohai0,per0,pbr0,eps0,bps0,tenki0,heikin0,filler01,filler02));
        conn.commit()
@@ -261,7 +261,7 @@ alg0 = "LogisticRegression"
 ac_score = metrics.accuracy_score(test_label, pre)
 print("正解率=", ac_score)
 
-sql = 'select * from "kabumst" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
+sql = 'select * from "kabumst2" WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
 cursor.execute(sql,(yosdate,));
 results2 = cursor.fetchall()
 
@@ -311,7 +311,7 @@ for i3 in range(total_len2):
      heikin0   = data1[19]
      filler01  = data1[20]
      filler02  = alg0
-     ins = 'INSERT INTO kabuyosoku VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+     ins = 'INSERT INTO kabuyosoku2 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
      try:
        cursor.execute(ins,(scode0,hiduke0,sname0,lank0,zenne0,hajime0,takane0,yasune0,dekidaka0,baibai0,jikaso0,hakokab0,hairima0,hitohai0,per0,pbr0,eps0,bps0,tenki0,heikin0,filler01,filler02));
        conn.commit()

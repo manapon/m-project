@@ -21,13 +21,16 @@ import random, re
 import sklearn
 sklearn.__version__
 
-stdate  = input("分析開始日:")
-enddate = input("分析終了日:")
-yosdate = input("予測対象日:")
 wlank   = '0'
 
 conn = psycopg2.connect(host="localhost", database="manaponDB", user="postgres",password="manapon1219")
 cursor = conn.cursor()
+
+sql = 'select hiduke0 from "kabumst" WHERE "scode0" > %s ORDER BY "hiduke0" DESC'
+cursor.execute(sql,('0000',));
+enddate = cursor.fetchone()
+yosdate = enddate
+stdate = '20190901'
 
 sql = 'select * from "kabumst" WHERE "lank0" > %s and "hiduke0" >= %s and "hiduke0" <= %s ORDER BY "hiduke0" ASC'
 cursor.execute(sql,(wlank,stdate,enddate,));

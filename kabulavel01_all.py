@@ -33,9 +33,8 @@ cnt6 = 0
 
 for i in range(stpointer,endpointer):
   scode = mstd[i,0]
-  lank  = '0'
-  sql = 'select * from "kabumst" WHERE "scode0" = %s AND "lank0" = %s ORDER BY "hiduke0" ASC'
-  cursor.execute(sql,(scode,lank,));
+  sql = 'select * from "kabumst" WHERE "scode0" = %s ORDER BY "hiduke0" ASC'
+  cursor.execute(sql,(scode,));
   results = cursor.fetchall()
   
   outsu = len(results)

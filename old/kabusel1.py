@@ -10,7 +10,7 @@ import glob
 import openpyxl as px
 import pandas as pd
 
-stpointer = int(input("開始ポインタ:"))
+stpointer = 0
 
 driver = webdriver.Chrome()
 url = "https://weather.yahoo.co.jp/weather/jp/13/4410.html"
@@ -32,7 +32,6 @@ heikin = hei11[48].replace(",","")
 driver.close()
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
-#mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=';')
 mstd = mst.values
 endpointer = len(mstd)
 

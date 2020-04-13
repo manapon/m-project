@@ -28,11 +28,10 @@ driver.get(url)
 b = driver.find_element_by_id("wrapper")
 hei01 = b.text
 hei11 = hei01.split("\n")
-heikin = hei11[48].replace(",","") 
+heikin = hei11[49].replace(",","") 
 driver.close()
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
-#mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=';')
 mstd = mst.values
 endpointer = len(mstd)
 
@@ -173,7 +172,6 @@ for i2 in range(stpointer,endpointer):
   except:
     print('※※※　ＤＢ更新エラー発生スキップします　※※※')
 
-conn.commit()
 sql = 'SELECT count(*) from kabutrn'
 cursor.execute(sql);
 results = cursor.fetchall()

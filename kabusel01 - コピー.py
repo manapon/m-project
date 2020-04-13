@@ -10,7 +10,7 @@ import glob
 import openpyxl as px
 import pandas as pd
 
-stpointer = int(input("開始ポインタ:"))
+stpointer = 0
 
 driver = webdriver.Chrome()
 url = "https://weather.yahoo.co.jp/weather/jp/13/4410.html"
@@ -29,6 +29,7 @@ b = driver.find_element_by_id("wrapper")
 hei01 = b.text
 hei11 = hei01.split("\n")
 heikin = hei11[48].replace(",","") 
+heikin = 0
 driver.close()
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
@@ -139,7 +140,8 @@ for i2 in range(stpointer,endpointer):
   if kabu002[0] == '---':
     pbr   = 0
   else:
-    pbr   = kabu002[1].replace(" ","")    # PBR
+    pbr1  = kabu002[1].replace(" ","")    # PBR
+    pbr   = pbr1.replace(",","")          # PBR
     if pbr == '---' :
       pbr   = 0
   

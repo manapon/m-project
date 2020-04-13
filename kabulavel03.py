@@ -34,7 +34,7 @@ cnt6 = 0
 for i in range(stpointer,endpointer):
   scode = mstd[i,0]
   lank  = '0'
-  sql = 'select * from "kabumst" WHERE "scode0" = %s AND "lank0" = %s ORDER BY "hiduke0" ASC'
+  sql = 'select * from "kabumst3" WHERE "scode0" = %s AND "lank0" = %s ORDER BY "hiduke0" ASC'
   cursor.execute(sql,(scode,lank,));
   results = cursor.fetchall()
   
@@ -48,7 +48,7 @@ for i in range(stpointer,endpointer):
     hidukew2 = hiduke0 + datetime.timedelta(weeks=2)
     #hidukew2 = hiduke0 + datetime.timedelta(days=3)
     try:
-      sql = 'select * from "kabumst" WHERE "scode0" = %s and "hiduke0" = %s ORDER BY "hiduke0" ASC'
+      sql = 'select * from "kabumst3" WHERE "scode0" = %s and "hiduke0" = %s ORDER BY "hiduke0" ASC'
       cursor.execute(sql,(scode,hidukew2,));
       results2 = cursor.fetchall()
       data2 = results2[0]
@@ -76,7 +76,7 @@ for i in range(stpointer,endpointer):
         label = '1'
         cnt1 = cnt1 + 1
       
-      sql = 'update "kabumst" set lank0 = %s WHERE "scode0" = %s and "hiduke0" = %s '
+      sql = 'update "kabumst3" set lank0 = %s WHERE "scode0" = %s and "hiduke0" = %s '
       cursor.execute(sql,(label,scode,hiduke0,));
       conn.commit()
       print("更新完了","コード：",scode,hiduke0)

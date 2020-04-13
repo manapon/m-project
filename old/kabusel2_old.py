@@ -28,11 +28,10 @@ driver.get(url)
 b = driver.find_element_by_id("wrapper")
 hei01 = b.text
 hei11 = hei01.split("\n")
-heikin = hei11[48].replace(",","") 
+heikin = hei11[49].replace(",","") 
 driver.close()
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
-#mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=';')
 mstd = mst.values
 endpointer = len(mstd)
 
@@ -47,17 +46,10 @@ for i2 in range(stpointer,endpointer):
   scode  = mstd[i2,0]
   sname = mstd[i2,1]
 
-#  hedlessモード
-  options = webdriver.ChromeOptions()
-  options.add_argument('--headless')
-  driver = webdriver.Chrome(options=options)
-
-#  非hedlessモード
-#  driver = webdriver.Chrome()
+  driver = webdriver.Chrome()
   url = "https://stocks.finance.yahoo.co.jp/stocks/detail/?code=" + scode1
   driver.get(url)
-#  キャプチャ
-#  driver.get_screenshot_as_file(rf"C:\Users\manap\OneDrive\デスクトップ\sshot\ss" + scode1 + ".png")
+  driver.get_screenshot_as_file(rf"C:\Users\manap\OneDrive\デスクトップ\sshot\ss" + scode1 + ".png")
   c = driver.find_element_by_class_name("innerDate")
   d = driver.find_element_by_id("rfindex")
   kabu1 = []
@@ -173,7 +165,6 @@ for i2 in range(stpointer,endpointer):
   except:
     print('※※※　ＤＢ更新エラー発生スキップします　※※※')
 
-conn.commit()
 sql = 'SELECT count(*) from kabutrn'
 cursor.execute(sql);
 results = cursor.fetchall()

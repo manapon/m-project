@@ -20,30 +20,28 @@ ten111 = ten11[1].split(" ")
 tenki = ten111[0]
 driver.close()
 
-driver = webdriver.Chrome()
-url = "https://stocks.finance.yahoo.co.jp/"
-driver.get(url)
-b = driver.find_element_by_id("wrapper")
-hei01 = b.text
-hei11 = hei01.split("\n")
-heikin = hei11[48].replace(",","") 
-driver.close()
+
+
+heikin = 0
+
 
 mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=',')
+#mst = pd.read_csv(rf"C:\Users\manap\OneDrive\デスクトップ\stocklist_all.csv", sep=';')
 mstd = mst.values
 endpointer = len(mstd)
 
-hiduke = datetime.date.today()
+hiduke = str(datetime.date.today())
 
 conn = psycopg2.connect(host="localhost", database="manaponDB", user="postgres",password="manapon1219")
 cursor = conn.cursor()
 print ("日付：",hiduke,"Connected!","総件数：",endpointer)
 
-sql = 'SELECT count(*) from kabutrn WHERE "hiduke0" = %s ORDER BY "hiduke0" ASC'
+sql = 'SELECT count(*) from kabutrn WHERE "hiduke0" = %s '
 cursor.execute(sql,(hiduke,));
-rerunpointer = cursor.fetchall()
+rerunpointer2 = cursor.fetchall()
+rerunpointer  = int(rerunpointer2[0][0])
 
-if rerunpointer >= endpointer
+if rerunpointer >= endpointer :
   print ("リランの必要なしです。開始ポインター：",rerunpointer)
   sys.exit()
 
@@ -144,7 +142,8 @@ for i2 in range(rerunpointer,endpointer):
   if kabu002[0] == '---':
     pbr   = 0
   else:
-    pbr   = kabu002[1].replace(" ","")    # PBR
+    pbr1  = kabu002[1].replace(" ","")    # PBR
+    pbr   = pbr1.replace(",","")          # PBR
     if pbr == '---' :
       pbr   = 0
   
